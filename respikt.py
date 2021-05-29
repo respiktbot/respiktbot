@@ -40,6 +40,33 @@ async def on_message(message):
            await message.add_reaction('\U0000274C')
 
 
+    if message.content.startswith('+checkrep'):
+        actual_message = message.content.replace("+checkrep","")
+        a=0
+        user = ""
+        for i in actual_message:
+               if(i=='<'):
+                     a = 1
+               if(a==1):
+                     user = user+i
+                     if(i=='>'):
+                          break
+        inquirer = user.replace("<@","").replace(">","").strip()
+        channel = client.get_channel(777225766668730419)
+        try:
+           trial = int(inquirer)
+           req = requests.post("https://respiktbot.000webhostapp.com/inquire.php",data={"inquirer":inquirer}).text.strip()
+           if(req=='404'):
+                await message.add_reaction("\U0000274C")
+           else:
+                q = "<@" +inquirer+"> has "
+                await channel.send(str(q+req+"  Respikts"))
+                await message.add_reaction('\U0001F44D')
+        except:
+           await message.add_reaction('\U0000274C')    
+        
+        
+       
 
     if message.content=='+myrep':
         channel = client.get_channel(777225766668730419)
